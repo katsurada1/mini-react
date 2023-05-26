@@ -1,13 +1,28 @@
 import { createElement, createTextElement } from '../src';
 
 test('createElement', () => {
-  let element = createElement('div', {});
-  expect(element).toEqual({
-    type: 'div',
-    props: {
-      children: [],
+  let testCases = [
+    {
+      children: null,
+      expected: {
+        type: 'div',
+        props: { children: [null] },
+      },
     },
-  });
+    {
+      children: 'test text child',
+      expected: {
+        type: 'div',
+        props: { children: [createTextElement('test text child')] },
+      },
+    },
+  ];
+
+  for (const idx in testCases) {
+    let testCase = testCases[idx];
+    let elem = createElement('div', null, testCase.children);
+    expect(elem).toEqual(testCase.expected);
+  }
 });
 
 test('createTextElement', () => {
